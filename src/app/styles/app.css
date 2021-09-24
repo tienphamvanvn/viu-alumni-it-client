@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "./fonts.css";
+@import "./sizes.css";
 
 body {
   line-height: 1.47059;

@@ -1,0 +1,47 @@
+.w-22 {
+  width: 5.5rem;
+}
+
+.w-88 {
+  width: 22rem;
+}
+
+.min-w-5 {
+  min-width: 1.25rem;
+}
+
+.min-h-8 {
+  min-height: 2rem;
+}
+
+.min-w-8 {
+  min-width: 2rem;
+}
+
+.min-h-9 {
+  min-height: 2.25rem;
+}
+
+.min-w-9 {
+  min-width: 2.25rem;
+}
+
+.min-w-12 {
+  min-width: 3rem;
+}
+
+.min-w-14 {
+  min-width: 3.5rem;
+}
+
+.h-53px {
+  height: 53px;
+}
+
+.max-w-600px {
+  max-width: 600px;
+}
+
+.w-990px {
+  width: 990px;
+}
