@@ -6,20 +6,34 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import io from "socket.io-client";
 import "./styles/app.css";
 import { AppDispatch, GlobalState } from "./store/global.store";
 import { getAccount } from "./store/user/user.action";
+import { sockettt } from "./store/socket/socket.action";
+import Alert from "@/app/components/alert";
+import SocketClient from "./socket-client";
 import SignUpPage from "./modules/signup";
 import SignInPage from "./modules/signin";
 import HomePage from "./modules/home";
+import ProfilePage from "./modules/profile";
+import FollowPage from "./modules/follow";
 
 const App = () => {
-  const { account } = useSelector(userSelector);
+  const { token, account } = useSelector(userSelector);
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(getAccount());
+
+    const socket = io();
+
+    dispatch(sockettt(socket));
+
+    return () => {
+      socket.close();
+    };
   }, [dispatch]);
 
   const generateRoute = (path: string, compt: any) => {
@@ -39,14 +53,19 @@ const App = () => {
   };
   return (
     <Router>
+      <Alert />
+      {token && <SocketClient />}
       <Switch>
         {redirectToHome("/signup")}
         {redirectToHome("/signin")}
 
+        {generateRoute("/home", HomePage)}
+        {generateRoute("/:studentID/following", FollowPage)}
+        {generateRoute("/:studentID/followers", FollowPage)}
+
         <Route path="/signup" component={SignUpPage} exact />
         <Route path="/signin" component={SignInPage} exact />
-
-        {generateRoute("/home", HomePage)}
+        <Route path="/:studentID" component={ProfilePage} exact />
       </Switch>
     </Router>
   );

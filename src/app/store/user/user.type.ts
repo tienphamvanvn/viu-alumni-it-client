@@ -3,12 +3,20 @@ import { User } from "@/app/shared/types/user.type";
 export interface UserState {
   token: string | null;
   account: User | null;
+  user: User | null;
+  following: User[] | null;
+  followers: User[] | null;
 }
 
 export enum UserActionType {
   SIGNUP = "SIGNUP",
   SIGNIN = "SIGNIN",
   GET_ACCOUNT = "GET_ACCOUNT",
+  GET_USER = "GET_USER",
+  EDIT_ACCOUNT = "EDIT_ACCOUNT",
+  FOLLOW = "FOLLOW",
+  UNFOLLOW = "UNFOLLOW",
+  GET_FOLLOW = "GET_FOLLOW",
 }
 
 export interface SignUpAction {
@@ -31,4 +39,62 @@ export interface GetAccountAction {
   };
 }
 
-export type UserAction = SignUpAction | SignInAction | GetAccountAction;
+export interface GetUserAction {
+  type: typeof UserActionType.GET_USER;
+  payload: {
+    user: User;
+  };
+}
+
+export interface EditAccountAction {
+  type: typeof UserActionType.EDIT_ACCOUNT;
+  payload: {
+    account: User;
+  };
+}
+
+export interface FollowAction {
+  type: typeof UserActionType.FOLLOW;
+  payload: {
+    account: {
+      _id: string;
+      following: string[];
+    };
+    user: {
+      _id: string;
+      followers: string[];
+    };
+  };
+}
+
+export interface UnfollowAction {
+  type: typeof UserActionType.UNFOLLOW;
+  payload: {
+    account: {
+      _id: string;
+      following: string[];
+    };
+    user: {
+      _id: string;
+      followers: string[];
+    };
+  };
+}
+
+export interface GetFollowAction {
+  type: typeof UserActionType.GET_FOLLOW;
+  payload: {
+    following: User[];
+    followers: User[];
+  };
+}
+
+export type UserAction =
+  | SignUpAction
+  | SignInAction
+  | GetAccountAction
+  | GetUserAction
+  | EditAccountAction
+  | FollowAction
+  | UnfollowAction
+  | GetFollowAction;
