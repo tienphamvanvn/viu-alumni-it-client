@@ -1,0 +1,4 @@
+.form-textbox-focused + .form-textbox-label {
+  top: 0.5rem !important;
+  font-size: 12px;
+}
