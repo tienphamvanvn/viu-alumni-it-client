@@ -18,6 +18,7 @@ import SignInPage from "./modules/signin";
 import HomePage from "./modules/home";
 import ProfilePage from "./modules/profile";
 import FollowPage from "./modules/follow";
+import ConnectPeoplePage from "./modules/connect-people";
 
 const App = () => {
   const { token, account } = useSelector(userSelector);
@@ -60,6 +61,7 @@ const App = () => {
         {redirectToHome("/signin")}
 
         {generateRoute("/home", HomePage)}
+        {generateRoute("/connect_people", ConnectPeoplePage)}
         {generateRoute("/:studentID/following", FollowPage)}
         {generateRoute("/:studentID/followers", FollowPage)}
 

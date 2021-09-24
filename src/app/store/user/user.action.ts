@@ -288,3 +288,26 @@ export const getFollow =
       });
     }
   };
+
+export const getSuggestionsUser =
+  (): AppThunk => async (dispatch, getState) => {
+    try {
+      const token = getState().user.token;
+
+      if (token) {
+        const { data } = await getDataAPI(`user/suggestions-user`, token);
+
+        dispatch({
+          type: UserActionType.GET_SUGGESTIONS_USER,
+          payload: {
+            usersSuggestions: data.users,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: AlertActionType.ALERT_FAILURE,
+        payload: { error: errorHandler(error) },
+      });
+    }
+  };

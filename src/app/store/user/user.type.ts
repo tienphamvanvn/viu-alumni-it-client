@@ -6,6 +6,7 @@ export interface UserState {
   user: User | null;
   following: User[] | null;
   followers: User[] | null;
+  usersSuggestions: User[] | null;
 }
 
 export enum UserActionType {
@@ -17,6 +18,7 @@ export enum UserActionType {
   FOLLOW = "FOLLOW",
   UNFOLLOW = "UNFOLLOW",
   GET_FOLLOW = "GET_FOLLOW",
+  GET_SUGGESTIONS_USER = "GET_SUGGESTIONS_USER",
 }
 
 export interface SignUpAction {
@@ -89,6 +91,13 @@ export interface GetFollowAction {
   };
 }
 
+export interface GetSuggestionsUserAction {
+  type: typeof UserActionType.GET_SUGGESTIONS_USER;
+  payload: {
+    usersSuggestions: User[];
+  };
+}
+
 export type UserAction =
   | SignUpAction
   | SignInAction
@@ -97,4 +106,5 @@ export type UserAction =
   | EditAccountAction
   | FollowAction
   | UnfollowAction
-  | GetFollowAction;
+  | GetFollowAction
+  | GetSuggestionsUserAction;

@@ -7,6 +7,7 @@ const initialState: UserState = {
   user: null,
   following: null,
   followers: null,
+  usersSuggestions: null,
 };
 
 export const userReducer = (
@@ -63,6 +64,11 @@ export const userReducer = (
         ...state,
         following: action.payload.following,
         followers: action.payload.followers,
+      };
+    case UserActionType.GET_SUGGESTIONS_USER:
+      return {
+        ...state,
+        usersSuggestions: action.payload.usersSuggestions,
       };
 
     default:
