@@ -9,6 +9,7 @@ import { AppThunk } from "../global.store";
 import { AlertActionType } from "../alert/alert.type";
 import { UserActionType } from "./user.type";
 import { uploadSingleFile } from "@/app/shared/utils/upload";
+import { createNotify, deleteNotify } from "../notify/notify.action";
 
 export const signUp =
   (payload: {
@@ -228,6 +229,18 @@ export const follow =
             user: data.user,
           },
         });
+
+        const notify = {
+          uId: data.account._id,
+          text: "followed you",
+          recipients: [data.user._id],
+          url: `/${data.account.studentID}`,
+          type: "FOLLOW",
+        };
+
+        dispatch(
+          createNotify({ account: data.account, token, notify, socket })
+        );
       }
     } catch (error) {
       dispatch({
@@ -255,6 +268,16 @@ export const unfollow =
             user: data.user,
           },
         });
+
+        const notify = {
+          uId: data.account._id,
+          text: "followed you",
+          recipients: [data.user._id],
+          url: `/${data.account.studentID}`,
+          type: "FOLLOW",
+        };
+
+        dispatch(deleteNotify({ token, notify, socket }));
       }
     } catch (error) {
       dispatch({

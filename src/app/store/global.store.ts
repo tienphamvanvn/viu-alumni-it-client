@@ -3,6 +3,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { alertReducer } from "./alert/alert.reducer";
 import { AlertState } from "./alert/alert.type";
+import { notifyReducer } from "./notify/notify.reducer";
+import { NotifyState } from "./notify/notify.type";
 import { socketReducer } from "./socket/socket.reducer";
 import { SocketState } from "./socket/socket.type";
 import { userReducer } from "./user/user.reducer";
@@ -12,6 +14,7 @@ const rootReducer = combineReducers({
   alert: alertReducer,
   user: userReducer,
   socket: socketReducer,
+  notify: notifyReducer,
 });
 
 const store = createStore(
@@ -23,6 +26,7 @@ export interface GlobalState {
   alert: AlertState;
   user: UserState;
   socket: SocketState;
+  notify: NotifyState;
 }
 
 export type AppDispatch = ThunkDispatch<GlobalState, unknown, Action<string>>;

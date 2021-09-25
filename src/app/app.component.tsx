@@ -19,6 +19,7 @@ import HomePage from "./modules/home";
 import ProfilePage from "./modules/profile";
 import FollowPage from "./modules/follow";
 import ConnectPeoplePage from "./modules/connect-people";
+import NotificationsPage from "./modules/notifications";
 
 const App = () => {
   const { token, account } = useSelector(userSelector);
@@ -64,6 +65,7 @@ const App = () => {
         {generateRoute("/connect_people", ConnectPeoplePage)}
         {generateRoute("/:studentID/following", FollowPage)}
         {generateRoute("/:studentID/followers", FollowPage)}
+        {generateRoute("/notifications", NotificationsPage)}
 
         <Route path="/signup" component={SignUpPage} exact />
         <Route path="/signin" component={SignInPage} exact />

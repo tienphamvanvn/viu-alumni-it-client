@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Notify } from "./shared/types/notify.type";
 import { AppDispatch, GlobalState } from "./store/global.store";
+import { NotifyActionType } from "./store/notify/notify.type";
 import { UserActionType } from "./store/user/user.type";
 
 const SocketClient = () => {
@@ -44,6 +46,34 @@ const SocketClient = () => {
       socket.off("unfollowToClient");
     };
   }, [dispatch, socket]);
+
+  // Create notify
+  useEffect(() => {
+    socket.on("createNotifyToClient", (notify: Notify) => {
+      dispatch({
+        type: NotifyActionType.CREATE_NOTIFY,
+        payload: {
+          notify,
+        },
+      });
+    });
+
+    return () => socket.off("createNotifyToClient");
+  }, [socket, dispatch]);
+
+  // Delete notify
+  useEffect(() => {
+    socket.on("deleteNotifyToClient", (notify: Notify) => {
+      dispatch({
+        type: NotifyActionType.DELETE_NOTIFY,
+        payload: {
+          notify,
+        },
+      });
+    });
+
+    return () => socket.off("deleteNotifyToClient");
+  }, [socket, dispatch]);
 
   return <></>;
 };

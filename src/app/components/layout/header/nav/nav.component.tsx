@@ -17,6 +17,9 @@ import { ReactComponent as IconUser } from "@/app/assets/svgs/icon-user.svg";
 import { ReactComponent as IconUserFill } from "@/app/assets/svgs/icon-user-fill.svg";
 import { ReactComponent as IconSignIn } from "@/app/assets/svgs/icon-sign-in.svg";
 import { ReactComponent as IconSignInFill } from "@/app/assets/svgs/icon-sign-in-fill.svg";
+import { GlobalState } from "@/app/store/global.store";
+import { useSelector } from "react-redux";
+import { Notify } from "@/app/shared/types/notify.type";
 
 const navList = [
   {
@@ -73,9 +76,15 @@ const navList = [
 ];
 
 const Nav = ({ account, history }: PropType) => {
+  const { notifies } = useSelector(notifySelector);
   const pathname = history.location.pathname.slice(0, 5);
 
   const studentIDParam = history.location.pathname.slice(1);
+
+  const newNotifies: Notify[] =
+    notifies && notifies.length > 0
+      ? notifies.filter((notify: Notify) => !notify.isRead)
+      : [];
 
   return (
     <div className="flex flex-col w-full my-1 items-center xl:items-start">
@@ -88,7 +97,7 @@ const Nav = ({ account, history }: PropType) => {
               className="flex flex-col flex-grow items-center w-full group xl:items-start"
             >
               <div className="flex justify-center items-center max-w-full p-3 rounded-full group-hover:bg-blue-100">
-                <div className="flex flex-col">
+                <div className="flex flex-col relative">
                   {item.name === "Profile" &&
                   (studentIDParam === account.studentID.toString() ||
                     studentIDParam.indexOf(account.studentID + "/following") !==
@@ -99,6 +108,28 @@ const Nav = ({ account, history }: PropType) => {
                     : pathname === item.path.slice(0, 5)
                     ? item.iconFill
                     : item.icon}
+
+                  {item.name === "Notifications" && (
+                    <>
+                      {}
+                      {newNotifies.length > 0 && (
+                        <div
+                          className="flex justify-center items-center absolute h-4 px-2 rounded-full text-xs text-white bg-blue-600"
+                          style={{
+                            top: "-6px",
+                            right: "-4px",
+                            minWidth: "16px",
+                          }}
+                        >
+                          <span>
+                            {newNotifies.length > 20
+                              ? "20+"
+                              : newNotifies.length}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
                 <div className="max-w-full hidden ml-5 mr-4 overflow-hidden whitespace-nowrap overflow-ellipsis break-words xl:block">
                   <span
@@ -183,5 +214,7 @@ const Nav = ({ account, history }: PropType) => {
 type PropType = RouteComponentProps & {
   account: User | null;
 };
+
+const notifySelector = (state: GlobalState) => state.notify;
 
 export default withRouter(Nav);

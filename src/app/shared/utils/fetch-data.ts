@@ -43,3 +43,13 @@ export const patchDataAPI = async (
 
   return res;
 };
+
+export const deleteDataAPI = async (
+  url: string,
+  token: string | null = null
+) => {
+  const res = await axios.delete(`/api/${url}`, {
+    headers: { Authorization: token },
+  });
+  return res;
+};
