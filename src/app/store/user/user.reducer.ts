@@ -26,6 +26,12 @@ export const userReducer = (
         token: action.payload.token,
         account: action.payload.account,
       };
+    case UserActionType.SIGNOUT:
+      return {
+        ...state,
+        token: action.payload.token,
+        account: action.payload.account,
+      };
     case UserActionType.GET_USER:
       return {
         ...state,

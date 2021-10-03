@@ -40,13 +40,12 @@ export const signUp =
           success: data.message,
         },
       });
-
-      window.location.href = "/signin";
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
         payload: { error: errorHandler(error) },
       });
+      return Promise.reject();
     }
   };
 
@@ -86,13 +85,20 @@ export const signIn =
 export const signOut = (): AppThunk => async dispatch => {
   try {
     localStorage.removeItem("viu-alumni-it");
+    dispatch({
+      type: UserActionType.SIGNOUT,
+      payload: {
+        token: null,
+        account: null,
+      },
+    });
     await postDataAPI("auth/signout");
-    window.location.href = "/signin";
   } catch (error) {
     dispatch({
       type: AlertActionType.ALERT_FAILURE,
       payload: { error: errorHandler(error) },
     });
+    return Promise.reject();
   }
 };
 

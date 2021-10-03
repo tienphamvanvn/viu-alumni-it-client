@@ -12,6 +12,7 @@ export interface UserState {
 export enum UserActionType {
   SIGNUP = "SIGNUP",
   SIGNIN = "SIGNIN",
+  SIGNOUT = "SIGNOUT",
   GET_ACCOUNT = "GET_ACCOUNT",
   GET_USER = "GET_USER",
   EDIT_ACCOUNT = "EDIT_ACCOUNT",
@@ -32,6 +33,14 @@ export interface SignInAction {
   payload: {
     token: string;
     account: User;
+  };
+}
+
+export interface SignOutAction {
+  type: typeof UserActionType.SIGNOUT;
+  payload: {
+    token: null;
+    account: null;
   };
 }
 
@@ -117,6 +126,7 @@ export interface UnbookmarkPostAction {
 export type UserAction =
   | SignUpAction
   | SignInAction
+  | SignOutAction
   | GetAccountAction
   | GetUserAction
   | EditAccountAction

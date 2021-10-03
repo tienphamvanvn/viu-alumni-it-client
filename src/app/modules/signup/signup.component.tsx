@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store/global.store";
 import { signUp } from "@/app/store/user/user.action";
@@ -14,6 +14,8 @@ const SignUpPage: React.FC = () => {
     gender: "Male",
   };
 
+  const history = useHistory();
+
   const [userData, setUserData] = useState(initialState);
 
   const { fullname, studentID, email, password, gender } = userData;
@@ -27,7 +29,7 @@ const SignUpPage: React.FC = () => {
 
   const handleSubmit = (e: React.FocusEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(signUp(userData));
+    dispatch(signUp(userData)).then(() => history.push("/signin"));
   };
 
   return (

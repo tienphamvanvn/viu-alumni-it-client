@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Menu, Transition } from "@headlessui/react";
 import { cx } from "@vechaiui/react";
@@ -8,13 +8,13 @@ import { AppDispatch } from "@/app/store/global.store";
 import { ReactComponent as IconEllipsis } from "@/app/assets/svgs/icon-ellipsis.svg";
 import { signOut } from "@/app/store/user/user.action";
 
-const AccountMenu = ({ account, history }: PropType) => {
+const AccountMenu = ({ account }: PropType) => {
+  const history = useHistory();
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSignOut = () => {
-    dispatch(signOut());
-    history.push("/signin");
-  };
+  const handleSignOut = () =>
+    dispatch(signOut()).then(() => history.push("/signin"));
 
   return (
     <Menu
@@ -84,8 +84,8 @@ const AccountMenu = ({ account, history }: PropType) => {
   );
 };
 
-type PropType = RouteComponentProps & {
+type PropType = {
   account: User | null;
 };
 
-export default withRouter(AccountMenu);
+export default AccountMenu;
