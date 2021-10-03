@@ -1,3 +1,20 @@
+/* flex basis */
+.flex-basis-auto {
+  flex-basis: auto;
+}
+
+.flex-basis-0 {
+  flex-basis: 0px;
+}
+
+.flex-basis-3 {
+  flex-basis: 3rem;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
 .w-22 {
   width: 5.5rem;
 }
@@ -24,6 +41,14 @@
 
 .min-w-9 {
   min-width: 2.25rem;
+}
+
+.min-h-13 {
+  min-height: 3.25rem;
+}
+
+.min-w-13 {
+  min-width: 3.25rem;
 }
 
 .min-w-12 {

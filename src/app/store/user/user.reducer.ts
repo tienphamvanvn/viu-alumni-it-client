@@ -70,6 +70,15 @@ export const userReducer = (
         ...state,
         usersSuggestions: action.payload.usersSuggestions,
       };
+    case UserActionType.BOOKMARK_POST:
+    case UserActionType.UNBOOKMAKR_POST:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          bookmark: action.payload.account.bookmark,
+        } as User,
+      };
 
     default:
       return state;

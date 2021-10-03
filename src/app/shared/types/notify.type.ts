@@ -1,6 +1,8 @@
+import { User } from "./user.type";
+
 export interface Notify {
   uId: string;
-  user: string;
+  user: User;
   recipients: string[];
   url: string;
   text: string;

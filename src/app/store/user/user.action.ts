@@ -10,6 +10,8 @@ import { AlertActionType } from "../alert/alert.type";
 import { UserActionType } from "./user.type";
 import { uploadSingleFile } from "@/app/shared/utils/upload";
 import { createNotify, deleteNotify } from "../notify/notify.action";
+import { Post } from "@/app/shared/types/post.type";
+import { getUserPosts } from "../post/post.action";
 
 export const signUp =
   (payload: {
@@ -127,6 +129,8 @@ export const getUser =
           user: data.user,
         },
       });
+
+      dispatch(getUserPosts(data.user._id));
 
       dispatch({
         type: AlertActionType.ALERT_SUCCESS,
@@ -327,6 +331,54 @@ export const getSuggestionsUser =
           },
         });
       }
+    } catch (error) {
+      dispatch({
+        type: AlertActionType.ALERT_FAILURE,
+        payload: { error: errorHandler(error) },
+      });
+    }
+  };
+
+export const bookmarkPost =
+  (token: string, post: Post): AppThunk =>
+  async dispatch => {
+    try {
+      const { data } = await patchDataAPI(
+        `user/${post._id}/bookmark-post`,
+        null,
+        token
+      );
+
+      dispatch({
+        type: UserActionType.BOOKMARK_POST,
+        payload: {
+          account: data.account,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: AlertActionType.ALERT_FAILURE,
+        payload: { error: errorHandler(error) },
+      });
+    }
+  };
+
+export const unbookmarkPost =
+  (token: string, post: Post): AppThunk =>
+  async dispatch => {
+    try {
+      const { data } = await patchDataAPI(
+        `user/${post._id}/unbookmark-post`,
+        null,
+        token
+      );
+
+      dispatch({
+        type: UserActionType.UNBOOKMAKR_POST,
+        payload: {
+          account: data.account,
+        },
+      });
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,

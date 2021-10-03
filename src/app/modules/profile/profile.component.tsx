@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import moment from "moment";
 import { ReactComponent as IconCurrentHome } from "@/app/assets/svgs/icon-current-home.svg";
 import { ReactComponent as IconLocation } from "@/app/assets/svgs/icon-location.svg";
 import { ReactComponent as IconClass } from "@/app/assets/svgs/icon-class.svg";
@@ -11,6 +10,7 @@ import { ReactComponent as IconInbox } from "@/app/assets/svgs/icon-inbox.svg";
 import { ReactComponent as IconDate } from "@/app/assets/svgs/icon-date.svg";
 import ImageCoverPhoto from "@/app/assets/images/image-cover-photo.png";
 import ImageProfilePicture from "@/app/assets/images/image-profile-picture.png";
+import { moment } from "@/app/shared/utils/moment";
 import { AppDispatch, GlobalState } from "@/app/store/global.store";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "@/app/store/user/user.action";
@@ -22,6 +22,7 @@ import FollowsYou from "@/app/components/follows-you";
 
 const ProfilePage: React.FC<PropType> = ({ match }) => {
   const { account, user } = useSelector(userSelector);
+  const { posts } = useSelector(postSelector);
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -45,6 +46,7 @@ const ProfilePage: React.FC<PropType> = ({ match }) => {
           user={user}
           studentIDParam={studentIDParam}
           headline="Profile"
+          posts={posts}
         />
         <div className="flex flex-col">
           <div className="flex flex-col flex-grow">
@@ -498,5 +500,6 @@ interface MatchParams {
 type PropType = RouteComponentProps<MatchParams>;
 
 const userSelector = (state: GlobalState) => state.user;
+const postSelector = (state: GlobalState) => state.post;
 
 export default ProfilePage;

@@ -11,3 +11,234 @@ body {
   letter-spacing: -0.022em;
   font-family: "San Francisco Pro";
 }
+
+.wysiwyg-mention {
+  text-decoration: none;
+  color: #1236ff;
+  background-color: #f0fbff;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+.public-DraftStyleDefault-block,
+.public-DraftStyleDefault-ol,
+.public-DraftStyleDefault-ul {
+  margin: 0 !important;
+}
+
+.rdw-editor-wrapper .rdw-editor-main {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  max-height: 40vh;
+}
+
+.viu-inline-comment * {
+  display: inline;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.icon-heart #heart {
+  transform-origin: center;
+  animation: animateHeartOut 0.3s linear forwards;
+}
+
+.icon-heart #main-circ {
+  transform-origin: 29.5px 29.5px;
+}
+
+.liked .icon-heart #heart {
+  transform: scale(0.2);
+  fill: #e2264d;
+  animation: animateHeart 0.3s linear forwards 0.25s;
+}
+
+.liked .icon-heart #main-circ {
+  transition: all 2s;
+  animation: animateCircle 0.3s linear forwards;
+  opacity: 1;
+}
+
+.liked .icon-heart #grp1,
+.liked .icon-heart #grp2,
+.liked .icon-heart #grp3,
+.liked .icon-heart #grp4,
+.liked .icon-heart #grp5,
+.liked .icon-heart #grp6,
+.liked .icon-heart #grp7 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.liked .icon-heart #grp1 #oval1,
+.liked .icon-heart #grp1 #oval2,
+.liked .icon-heart #grp2 #oval1,
+.liked .icon-heart #grp2 #oval2,
+.liked .icon-heart #grp3 #oval1,
+.liked .icon-heart #grp3 #oval2,
+.liked .icon-heart #grp4 #oval1,
+.liked .icon-heart #grp4 #oval2,
+.liked .icon-heart #grp5 #oval1,
+.liked .icon-heart #grp5 #oval2,
+.liked .icon-heart #grp6 #oval1,
+.liked .icon-heart #grp6 #oval2,
+.liked .icon-heart #grp7 #oval1,
+.liked .icon-heart #grp7 #oval2 {
+  transform-origin: 0 0 0;
+}
+
+.liked .icon-heart #grp1 #oval1 {
+  transform: scale(0) translate(0, -30px);
+  transition: 0.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp1 #oval2 {
+  transform: scale(0) translate(10px, -50px);
+  transition: 1.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp2 #oval1 {
+  transform: scale(0) translate(30px, -15px);
+  transition: 0.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp2 #oval2 {
+  transform: scale(0) translate(60px, -15px);
+  transition: 1.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp3 #oval1 {
+  transform: scale(0) translate(30px, 0px);
+  transition: 0.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp3 #oval2 {
+  transform: scale(0) translate(60px, 10px);
+  transition: 1.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp4 #oval1 {
+  transform: scale(0) translate(30px, 15px);
+  transition: 0.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp4 #oval2 {
+  transform: scale(0) translate(40px, 50px);
+  transition: 1.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp5 #oval1 {
+  transform: scale(0) translate(-10px, 20px);
+  transition: 0.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp5 #oval2 {
+  transform: scale(0) translate(-60px, 30px);
+  transition: 1.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp6 #oval1 {
+  transform: scale(0) translate(-30px, 0px);
+  transition: 0.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp6 #oval2 {
+  transform: scale(0) translate(-60px, -5px);
+  transition: 1.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp7 #oval1 {
+  transform: scale(0) translate(-30px, -15px);
+  transition: 0.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp7 #oval2 {
+  transform: scale(0) translate(-55px, -30px);
+  transition: 1.5s transform 0.3s;
+}
+
+.liked .icon-heart #grp2,
+.liked .icon-heart #grp3,
+.liked .icon-heart #grp4,
+.liked .icon-heart #grp5,
+.liked .icon-heart #grp6,
+.liked .icon-heart #grp7 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+@keyframes animateCircle {
+  40% {
+    transform: scale(10);
+    opacity: 1;
+    fill: #dd4688;
+  }
+  55% {
+    transform: scale(11);
+    opacity: 1;
+    fill: #d46abf;
+  }
+  65% {
+    transform: scale(12);
+    opacity: 1;
+    fill: #cc8ef5;
+  }
+  75% {
+    transform: scale(13);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.5;
+  }
+  85% {
+    transform: scale(17);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.2;
+  }
+  95% {
+    transform: scale(18);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.1;
+  }
+  100% {
+    transform: scale(19);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0;
+  }
+}
+
+@keyframes animateHeart {
+  0% {
+    transform: scale(0.2);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animateHeartOut {
+  0% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

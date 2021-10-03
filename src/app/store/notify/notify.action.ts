@@ -103,7 +103,7 @@ export const updateNotify =
         dispatch({
           type: NotifyActionType.UPDATE_NOTIFY,
           payload: {
-            notifies: data.notifies,
+            notify: data.notify,
           },
         });
       }

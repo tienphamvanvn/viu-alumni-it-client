@@ -20,6 +20,9 @@ import ProfilePage from "./modules/profile";
 import FollowPage from "./modules/follow";
 import ConnectPeoplePage from "./modules/connect-people";
 import NotificationsPage from "./modules/notifications";
+import PostDetailsPage from "./modules/post/post-details";
+import BookmarksPage from "./modules/bookmarks";
+import { getNotifies } from "./store/notify/notify.action";
 
 const App = () => {
   const { token, account } = useSelector(userSelector);
@@ -37,6 +40,12 @@ const App = () => {
       socket.close();
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getNotifies(token));
+    }
+  }, [dispatch, token]);
 
   const generateRoute = (path: string, compt: any) => {
     if (account) {
@@ -66,6 +75,8 @@ const App = () => {
         {generateRoute("/:studentID/following", FollowPage)}
         {generateRoute("/:studentID/followers", FollowPage)}
         {generateRoute("/notifications", NotificationsPage)}
+        {generateRoute("/post/:postId", PostDetailsPage)}
+        {generateRoute("/bookmarks", BookmarksPage)}
 
         <Route path="/signup" component={SignUpPage} exact />
         <Route path="/signin" component={SignInPage} exact />

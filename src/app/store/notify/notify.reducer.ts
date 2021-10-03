@@ -12,7 +12,7 @@ export const notifyReducer = (
     case NotifyActionType.CREATE_NOTIFY:
       return {
         ...state,
-        notifies: [...state.notifies, action.payload.notify],
+        notifies: [action.payload.notify, ...state.notifies],
       };
     case NotifyActionType.GET_NOTIFIES:
       return {
@@ -31,7 +31,11 @@ export const notifyReducer = (
     case NotifyActionType.UPDATE_NOTIFY:
       return {
         ...state,
-        notifies: action.payload.notifies,
+        notifies: state.notifies.map(notify =>
+          notify._id === action.payload.notify._id
+            ? action.payload.notify
+            : notify
+        ),
       };
 
     default:

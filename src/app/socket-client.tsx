@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Notify } from "./shared/types/notify.type";
+import { Post } from "./shared/types/post.type";
 import { AppDispatch, GlobalState } from "./store/global.store";
 import { NotifyActionType } from "./store/notify/notify.type";
+import { PostActionType } from "./store/post/post.type";
 import { UserActionType } from "./store/user/user.type";
 
 const SocketClient = () => {
@@ -73,6 +75,62 @@ const SocketClient = () => {
     });
 
     return () => socket.off("deleteNotifyToClient");
+  }, [socket, dispatch]);
+
+  // Like
+  useEffect(() => {
+    socket.on("likeToClient", (post: Post) => {
+      dispatch({
+        type: PostActionType.LIKE,
+        payload: {
+          post,
+        },
+      });
+    });
+
+    return () => socket.off("likeToClient");
+  }, [socket, dispatch]);
+
+  // Unlike
+  useEffect(() => {
+    socket.on("unlikeToClient", (post: Post) => {
+      dispatch({
+        type: PostActionType.UNLIKE,
+        payload: {
+          post,
+        },
+      });
+    });
+
+    return () => socket.off("unlikeToClient");
+  }, [socket, dispatch]);
+
+  // Create comment
+  useEffect(() => {
+    socket.on("createCommentToClient", (post: Post) => {
+      dispatch({
+        type: PostActionType.EDIT_POST,
+        payload: {
+          post,
+        },
+      });
+    });
+
+    return () => socket.off("createCommentToClient");
+  }, [socket, dispatch]);
+
+  // Delete comment
+  useEffect(() => {
+    socket.on("deleteCommentToClient", (post: Post) => {
+      dispatch({
+        type: PostActionType.EDIT_POST,
+        payload: {
+          post,
+        },
+      });
+    });
+
+    return () => socket.off("deleteCommentToClient");
   }, [socket, dispatch]);
 
   return <></>;

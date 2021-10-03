@@ -1,0 +1,12 @@
+.post-content ul,
+.post-content ol {
+  padding-left: 18px;
+}
+
+.post-content ul {
+  list-style-type: disc;
+}
+
+.post-content ol {
+  list-style-type: decimal;
+}

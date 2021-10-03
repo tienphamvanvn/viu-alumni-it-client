@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+import { moment } from "@/app/shared/utils/moment";
 import { AppDispatch, GlobalState } from "@/app/store/global.store";
 import Layout from "@/app/components/layout";
 import Head from "@/app/components/head";
 import { ReactComponent as IconUserFill } from "@/app/assets/svgs/icon-user-fill.svg";
+import { ReactComponent as IconPostFill } from "@/app/assets/svgs/icon-post-fill.svg";
+import { ReactComponent as IconPostNoti } from "@/app/assets/svgs/icon-post-noti.svg";
 import { getNotifies, updateNotify } from "@/app/store/notify/notify.action";
 import { Notify } from "@/app/shared/types/notify.type";
 
@@ -15,7 +17,8 @@ const NotificationsPage: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleIsRead = (msg: Notify) => dispatch(updateNotify(msg, token));
+  const handleIsRead = (notify: Notify) =>
+    dispatch(updateNotify(notify, token));
 
   useEffect(() => {
     if (token) {
@@ -33,7 +36,6 @@ const NotificationsPage: React.FC = () => {
           headline="Notifications"
         />
       </div>
-
       {notifies &&
         notifies.length > 0 &&
         notifies.map(notify => (
@@ -50,6 +52,12 @@ const NotificationsPage: React.FC = () => {
                 >
                   {notify.type === "FOLLOW" && (
                     <IconUserFill className="h-7 text-blue-600 fill-current" />
+                  )}
+                  {notify.type === "POST" && (
+                    <IconPostFill className="h-7 text-blue-600 fill-current" />
+                  )}
+                  {(notify.type === "LIKE" || notify.type === "COMMENT") && (
+                    <IconPostNoti className="h-7 text-blue-600 fill-current" />
                   )}
                 </div>
                 <div
@@ -98,7 +106,7 @@ const NotificationsPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span>{moment(notify.createdAt).fromNow()}</span>
+                  <span>{moment(notify.createdAt).fromNow(true)}</span>
                 </div>
                 {!notify.isRead && (
                   <div className="flex flex-col pt-2 ml-2">

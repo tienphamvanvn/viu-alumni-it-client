@@ -5,6 +5,8 @@ import { alertReducer } from "./alert/alert.reducer";
 import { AlertState } from "./alert/alert.type";
 import { notifyReducer } from "./notify/notify.reducer";
 import { NotifyState } from "./notify/notify.type";
+import { postReducer } from "./post/post.reducer";
+import { PostState } from "./post/post.type";
 import { socketReducer } from "./socket/socket.reducer";
 import { SocketState } from "./socket/socket.type";
 import { userReducer } from "./user/user.reducer";
@@ -15,6 +17,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   socket: socketReducer,
   notify: notifyReducer,
+  post: postReducer,
 });
 
 const store = createStore(
@@ -27,6 +30,7 @@ export interface GlobalState {
   user: UserState;
   socket: SocketState;
   notify: NotifyState;
+  post: PostState;
 }
 
 export type AppDispatch = ThunkDispatch<GlobalState, unknown, Action<string>>;

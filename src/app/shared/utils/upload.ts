@@ -9,3 +9,15 @@ export const uploadSingleFile = async (singleFile: any, token: string) => {
 
   return data.path;
 };
+
+export const uploadMultipleFile = async (files: any, token: string) => {
+  const formData = new FormData();
+
+  for (let i = 0; i < files.length; i++) {
+    formData.append("multiple-file", files[i]);
+  }
+
+  const { data } = await postDataAPI("upload/multiple-file", formData, token);
+
+  return data.paths;
+};

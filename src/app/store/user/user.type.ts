@@ -19,6 +19,8 @@ export enum UserActionType {
   UNFOLLOW = "UNFOLLOW",
   GET_FOLLOW = "GET_FOLLOW",
   GET_SUGGESTIONS_USER = "GET_SUGGESTIONS_USER",
+  BOOKMARK_POST = "BOOKMARK_POST",
+  UNBOOKMAKR_POST = "UNBOOKMAKR_POST",
 }
 
 export interface SignUpAction {
@@ -98,6 +100,20 @@ export interface GetSuggestionsUserAction {
   };
 }
 
+export interface BookmarkPostAction {
+  type: typeof UserActionType.BOOKMARK_POST;
+  payload: {
+    account: User;
+  };
+}
+
+export interface UnbookmarkPostAction {
+  type: typeof UserActionType.UNBOOKMAKR_POST;
+  payload: {
+    account: User;
+  };
+}
+
 export type UserAction =
   | SignUpAction
   | SignInAction
@@ -107,4 +123,6 @@ export type UserAction =
   | FollowAction
   | UnfollowAction
   | GetFollowAction
-  | GetSuggestionsUserAction;
+  | GetSuggestionsUserAction
+  | BookmarkPostAction
+  | UnbookmarkPostAction;

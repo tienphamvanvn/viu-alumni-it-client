@@ -1,7 +1,7 @@
 import { Notify } from "@/app/shared/types/notify.type";
 
 export interface NotifyState {
-  notifies: any[];
+  notifies: Notify[];
 }
 
 export enum NotifyActionType {
@@ -36,6 +36,7 @@ export interface DeleteNotifyAction {
 export interface UpdateNotifyAction {
   type: typeof NotifyActionType.UPDATE_NOTIFY;
   payload: {
+    notify: Notify;
     notifies: Notify[];
   };
 }
