@@ -3,8 +3,6 @@ import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { User } from "@/app/shared/types/user.type";
 import { ReactComponent as IconHome } from "@/app/assets/svgs/icon-home.svg";
 import { ReactComponent as IconHomeFill } from "@/app/assets/svgs/icon-home-fill.svg";
-import { ReactComponent as IconHash } from "@/app/assets/svgs/icon-hash.svg";
-import { ReactComponent as IconHashFill } from "@/app/assets/svgs/icon-hash-fill.svg";
 import { ReactComponent as IconBell } from "@/app/assets/svgs/icon-bell.svg";
 import { ReactComponent as IconBellFill } from "@/app/assets/svgs/icon-bell-fill.svg";
 import { ReactComponent as IconInbox } from "@/app/assets/svgs/icon-inbox.svg";
@@ -31,27 +29,20 @@ const navList = [
   },
   {
     id: 2,
-    name: "Explore",
-    path: "/explore",
-    icon: <IconHash className="h-7 fill-current group-hover:text-blue-600" />,
-    iconFill: <IconHashFill className="h-7 fill-current text-blue-600" />,
-  },
-  {
-    id: 3,
     name: "Notifications",
     path: "/notifications",
     icon: <IconBell className="h-7 fill-current group-hover:text-blue-600" />,
     iconFill: <IconBellFill className="h-7 fill-current text-blue-600" />,
   },
   {
-    id: 4,
+    id: 3,
     name: "Messages",
     path: "/messages",
     icon: <IconInbox className="h-7 fill-current group-hover:text-blue-600" />,
     iconFill: <IconInboxFill className="h-7 fill-current text-blue-600" />,
   },
   {
-    id: 5,
+    id: 4,
     name: "Bookmarks",
     path: "/bookmarks",
     icon: (
@@ -60,14 +51,14 @@ const navList = [
     iconFill: <IconBookmarkFill className="h-7 fill-current text-blue-600" />,
   },
   {
-    id: 6,
+    id: 5,
     name: "Groups",
     path: "/groups",
     icon: <IconGroup className="h-7 fill-current group-hover:text-blue-600" />,
     iconFill: <IconGroupFill className="h-7 fill-current text-blue-600" />,
   },
   {
-    id: 7,
+    id: 6,
     name: "Profile",
     path: "/",
     icon: <IconUser className="h-7 fill-current group-hover:text-blue-600" />,
@@ -154,13 +145,6 @@ const Nav: React.FC<PropType> = ({ account, history }) => {
               className="flex flex-col flex-grow items-center w-full group xl:items-start"
             >
               <div className="flex justify-center items-center max-w-full p-3 rounded-full group-hover:bg-blue-100">
-                <div className="flex flex-col">
-                  {pathname === "/explore".slice(0, 5) ? (
-                    <IconHashFill className="h-7 fill-current text-blue-600" />
-                  ) : (
-                    <IconHash className="h-7 fill-current group-hover:text-blue-600" />
-                  )}
-                </div>
                 <div className="max-w-full hidden ml-5 mr-4 overflow-hidden whitespace-nowrap overflow-ellipsis break-words xl:block">
                   <span
                     className={`text-xl font-bold group-hover:text-blue-600${

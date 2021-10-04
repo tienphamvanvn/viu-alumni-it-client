@@ -23,6 +23,8 @@ import NotificationsPage from "./modules/notifications";
 import PostDetailsPage from "./modules/post/post-details";
 import BookmarksPage from "./modules/bookmarks";
 import { getNotifies } from "./store/notify/notify.action";
+import GroupsPage from "./modules/groups";
+import MessagesPage from "./modules/messages";
 
 const App = () => {
   const { token, account } = useSelector(userSelector);
@@ -78,6 +80,8 @@ const App = () => {
         {generateRoute("/connect_people", ConnectPeoplePage)}
         {generateRoute("/notifications", NotificationsPage)}
         {generateRoute("/bookmarks", BookmarksPage)}
+        {generateRoute("/groups", GroupsPage)}
+        {generateRoute("/messages", MessagesPage)}
 
         {generateRoute("/post/:postId", PostDetailsPage)}
         {generateRoute("/:studentID/following", FollowPage)}
