@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Notify } from "./shared/types/notify.type";
 import { Post } from "./shared/types/post.type";
+import { User } from "./shared/types/user.type";
 import { AppDispatch, GlobalState } from "./store/global.store";
 import { NotifyActionType } from "./store/notify/notify.type";
 import { PostActionType } from "./store/post/post.type";
@@ -18,15 +19,18 @@ const SocketClient = () => {
   }, [socket, account]);
 
   useEffect(() => {
-    socket.on("followToClient", (data: any) => {
-      dispatch({
-        type: UserActionType.FOLLOW,
-        payload: {
-          account: data.account,
-          user: data.user,
-        },
-      });
-    });
+    socket.on(
+      "followToClient",
+      ({ account, user }: { account: User; user: User }) => {
+        dispatch({
+          type: UserActionType.FOLLOW,
+          payload: {
+            account,
+            user,
+          },
+        });
+      }
+    );
 
     return () => {
       socket.off("followToClient");
@@ -34,15 +38,18 @@ const SocketClient = () => {
   }, [dispatch, socket]);
 
   useEffect(() => {
-    socket.on("unfollowToClient", (data: any) => {
-      dispatch({
-        type: UserActionType.UNFOLLOW,
-        payload: {
-          account: data.account,
-          user: data.user,
-        },
-      });
-    });
+    socket.on(
+      "unfollowToClient",
+      ({ account, user }: { account: User; user: User }) => {
+        dispatch({
+          type: UserActionType.UNFOLLOW,
+          payload: {
+            account,
+            user,
+          },
+        });
+      }
+    );
 
     return () => {
       socket.off("unfollowToClient");

@@ -18,11 +18,6 @@ export const createPost =
   (token: string, socket: Socket, content: string, images: any): AppThunk =>
   async dispatch => {
     try {
-      dispatch({
-        type: PostActionType.POST_CREATE_LOADING,
-        payload: { isLoadingCreate: true },
-      });
-
       const paths = await uploadMultipleFile(images, token);
 
       const { data } = await postDataAPI(
@@ -50,17 +45,7 @@ export const createPost =
       dispatch(
         createNotify({ account: data.post.user, token, notify, socket })
       );
-
-      dispatch({
-        type: PostActionType.POST_CREATE_LOADING,
-        payload: { isLoadingCreate: false },
-      });
     } catch (error) {
-      dispatch({
-        type: PostActionType.POST_CREATE_LOADING,
-        payload: { isLoadingCreate: false },
-      });
-
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
         payload: { error: errorHandler(error) },
@@ -72,11 +57,6 @@ export const getPosts =
   (token: string): AppThunk =>
   async dispatch => {
     try {
-      dispatch({
-        type: PostActionType.POST_LOADING,
-        payload: { isLoading: true },
-      });
-
       const { data } = await getDataAPI("post/list-posts", token);
 
       dispatch({
@@ -85,17 +65,7 @@ export const getPosts =
           posts: data.posts,
         },
       });
-
-      dispatch({
-        type: PostActionType.POST_LOADING,
-        payload: { isLoading: false },
-      });
     } catch (error) {
-      dispatch({
-        type: PostActionType.POST_LOADING,
-        payload: { isLoading: false },
-      });
-
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
         payload: { error: errorHandler(error) },
@@ -108,11 +78,6 @@ export const getPost =
   async dispatch => {
     if (token) {
       try {
-        dispatch({
-          type: PostActionType.POST_LOADING,
-          payload: { isLoading: true },
-        });
-
         const { data } = await getDataAPI(`post/${postId}`, token);
 
         dispatch({
@@ -121,17 +86,7 @@ export const getPost =
             post: data.post,
           },
         });
-
-        dispatch({
-          type: PostActionType.POST_LOADING,
-          payload: { isLoading: false },
-        });
       } catch (error) {
-        dispatch({
-          type: PostActionType.POST_LOADING,
-          payload: { isLoading: false },
-        });
-
         dispatch({
           type: AlertActionType.ALERT_FAILURE,
           payload: { error: errorHandler(error) },
@@ -227,11 +182,6 @@ export const getBookmarkPosts =
   (token: string): AppThunk =>
   async dispatch => {
     try {
-      dispatch({
-        type: PostActionType.POST_LOADING,
-        payload: { isLoading: true },
-      });
-
       const { data } = await getDataAPI("post/bookmark-posts", token);
 
       dispatch({
@@ -240,17 +190,7 @@ export const getBookmarkPosts =
           posts: data.posts,
         },
       });
-
-      dispatch({
-        type: PostActionType.POST_LOADING,
-        payload: { isLoading: false },
-      });
     } catch (error) {
-      dispatch({
-        type: PostActionType.POST_LOADING,
-        payload: { isLoading: false },
-      });
-
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
         payload: { error: errorHandler(error) },
@@ -292,11 +232,6 @@ export const editPost =
   (token: string, content: string, images: any, post?: Post): AppThunk =>
   async dispatch => {
     try {
-      dispatch({
-        type: PostActionType.POST_EDIT_LOADING,
-        payload: { isLoadingEdit: true },
-      });
-
       const imageNewUrl = images.filter(
         (image: { url: any }) => typeof image !== "string"
       );
@@ -322,17 +257,7 @@ export const editPost =
           post: data.post,
         },
       });
-
-      dispatch({
-        type: PostActionType.POST_EDIT_LOADING,
-        payload: { isLoadingEdit: false },
-      });
     } catch (error) {
-      dispatch({
-        type: PostActionType.POST_EDIT_LOADING,
-        payload: { isLoadingEdit: false },
-      });
-
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
         payload: { error: errorHandler(error) },

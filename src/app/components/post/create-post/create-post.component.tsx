@@ -25,8 +25,8 @@ const CreatePost: React.FC<PropType> = ({
 }) => {
   const { token, account } = useSelector(userSelector);
   const { socket } = useSelector(socketSelector);
-  const { isLoadingCreate } = useSelector(postSelector);
 
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [images, setImages] = useState<any>(post?.images || []);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -72,12 +72,17 @@ const CreatePost: React.FC<PropType> = ({
   };
 
   const onSubmitPost = () => {
+    setLoading(true);
+
     const content = JSON.stringify(
       convertToRaw(editorState.editorState.getCurrentContent())
     );
 
     if (postType === "create-post") {
-      token && dispatch(createPost(token, socket, content, images));
+      token &&
+        dispatch(createPost(token, socket, content, images)).then(() =>
+          setLoading(false)
+        );
     }
 
     if (postType === "edit-post-dialog") {
@@ -178,14 +183,13 @@ const CreatePost: React.FC<PropType> = ({
           </div>
         </div>
       </div>
-      {isLoadingCreate && <Loader />}
+      {isLoading && <Loader />}
     </div>
   );
 };
 
 const userSelector = (state: GlobalState) => state.user;
 const socketSelector = (state: GlobalState) => state.socket;
-const postSelector = (state: GlobalState) => state.post;
 
 type PropType = {
   post?: Post;

@@ -32,6 +32,12 @@ const App = () => {
   useEffect(() => {
     dispatch(getAccount());
 
+    if (token) {
+      dispatch(getNotifies(token));
+    }
+  }, [dispatch, token]);
+
+  useEffect(() => {
     const socket = io();
 
     dispatch(sockettt(socket));
@@ -40,12 +46,6 @@ const App = () => {
       socket.close();
     };
   }, [dispatch]);
-
-  useEffect(() => {
-    if (token) {
-      dispatch(getNotifies(token));
-    }
-  }, [dispatch, token]);
 
   const generateRoute = (path: string, compt: any) => {
     if (account) {
@@ -68,18 +68,22 @@ const App = () => {
       {token && <SocketClient />}
       <Switch>
         {redirectToHome("/signup")}
+        {redirectToHome("/")}
         {redirectToHome("/signin")}
-
-        {generateRoute("/home", HomePage)}
-        {generateRoute("/connect_people", ConnectPeoplePage)}
-        {generateRoute("/:studentID/following", FollowPage)}
-        {generateRoute("/:studentID/followers", FollowPage)}
-        {generateRoute("/notifications", NotificationsPage)}
-        {generateRoute("/post/:postId", PostDetailsPage)}
-        {generateRoute("/bookmarks", BookmarksPage)}
 
         <Route path="/signup" component={SignUpPage} exact />
         <Route path="/signin" component={SignInPage} exact />
+
+        {generateRoute("/home", HomePage)}
+        {generateRoute("/connect_people", ConnectPeoplePage)}
+        {generateRoute("/notifications", NotificationsPage)}
+        {generateRoute("/bookmarks", BookmarksPage)}
+
+        {generateRoute("/post/:postId", PostDetailsPage)}
+        {generateRoute("/:studentID/following", FollowPage)}
+        {generateRoute("/:studentID/followers", FollowPage)}
+
+        <Route path="/" component={SignInPage} exact />
         <Route path="/:studentID" component={ProfilePage} exact />
       </Switch>
     </Router>

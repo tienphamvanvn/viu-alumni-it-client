@@ -75,7 +75,7 @@ const navList = [
   },
 ];
 
-const Nav = ({ account, history }: PropType) => {
+const Nav: React.FC<PropType> = ({ account, history }) => {
   const { notifies } = useSelector(notifySelector);
   const pathname = history.location.pathname.slice(0, 5);
 
@@ -113,14 +113,7 @@ const Nav = ({ account, history }: PropType) => {
                     <>
                       {}
                       {newNotifies.length > 0 && (
-                        <div
-                          className="flex justify-center items-center absolute h-4 px-2 rounded-full text-xs text-white bg-blue-600"
-                          style={{
-                            top: "-6px",
-                            right: "-4px",
-                            minWidth: "16px",
-                          }}
-                        >
+                        <div className="flex justify-center items-center absolute h-4 z-10 px-2 rounded-full text-xs text-white bg-blue-600 -top-1 -right-1 min-w-4">
                           <span>
                             {newNotifies.length > 20
                               ? "20+"

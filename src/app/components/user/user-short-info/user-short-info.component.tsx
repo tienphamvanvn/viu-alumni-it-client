@@ -5,7 +5,11 @@ import { moment } from "@/app/shared/utils/moment";
 import { GlobalState } from "@/app/store/global.store";
 import { User } from "@/app/shared/types/user.type";
 
-const UserShortInfo = ({ user, createdAt, isPageDetails }: PropType) => {
+const UserShortInfo: React.FC<PropType> = ({
+  user,
+  createdAt,
+  isPageDetails,
+}) => {
   const { account } = useSelector(userSelector);
 
   return (

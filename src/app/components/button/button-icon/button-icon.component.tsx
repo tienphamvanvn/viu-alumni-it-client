@@ -13,7 +13,7 @@ const ButtonIcon: React.FC<PropType> = ({
   onOpen,
   onClick,
 }) => {
-  const cssHover = "inline-flex absolute inset-0 -m-2 rounded-full z-0";
+  const cssHover = "inline-flex absolute inset-0 -m-2 rounded-full";
 
   return (
     <div className="flex justify-start">
@@ -39,6 +39,11 @@ const ButtonIcon: React.FC<PropType> = ({
               )}
               {buttonType === "edit" && (
                 <div className={`${cssHover} group-hover:bg-green-100`}></div>
+              )}
+              {buttonType === "inbox" && (
+                <div
+                  className={`${cssHover} group-hover:bg-blue-100 opacity-60 border border-blue-200`}
+                ></div>
               )}
               {icon}
             </div>
@@ -75,7 +80,7 @@ const ButtonIcon: React.FC<PropType> = ({
 type PropType = {
   post?: Post;
   comment?: Comment;
-  buttonType: "comment" | "like" | "bookmark" | "edit" | "more";
+  buttonType: "comment" | "like" | "bookmark" | "edit" | "more" | "inbox";
   isPageDetails?: boolean;
   isActive?: boolean;
   children?: ReactNode;

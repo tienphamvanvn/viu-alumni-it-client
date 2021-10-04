@@ -4,7 +4,7 @@ import { User } from "@/app/shared/types/user.type";
 import { Post } from "@/app/shared/types/post.type";
 import { ReactComponent as IconArrowBack } from "@/app/assets/svgs/icon-arrow-back.svg";
 
-const Head = ({
+const Head: React.FC<PropType> = ({
   account,
   user,
   studentIDParam,
@@ -12,7 +12,7 @@ const Head = ({
   headline,
   isArrowBack = "true",
   posts,
-}: PropType) => {
+}) => {
   const handleGoBack = () => history.goBack();
 
   return (
@@ -53,9 +53,6 @@ const Head = ({
                   <h2 className="max-w-full text-xl font-bold overflow-hidden overflow-ellipsis whitespace-nowrap leading-tight">
                     {headline}
                   </h2>
-                  <div className="text-sm max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap break-words leading-tight">
-                    {account && `@${account.studentID}`}
-                  </div>
                 </>
               )}
             </div>

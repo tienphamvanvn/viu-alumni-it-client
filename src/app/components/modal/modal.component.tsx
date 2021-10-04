@@ -12,6 +12,8 @@ const Modal: React.FC<PropType> = ({
   cssClass,
   cssStyle,
   onClose,
+  onClick,
+  modalType,
 }) => {
   return (
     <Transition show={show}>
@@ -67,6 +69,18 @@ const Modal: React.FC<PropType> = ({
                     </h2>
                   </div>
                 </div>
+                {modalType === "edit-profile" && (
+                  <div className="flex flex-col justify-center items-end self-stretch min-h-8 min-w-14">
+                    <div
+                      className="flex flex-col min-h-8 min-w-8 px-4 rounded-full cursor-pointer border bg-blue-600 border-blue-200 hover:bg-blue-700"
+                      onClick={onClick && onClick}
+                    >
+                      <div className="flex justify-center items-center flex-grow">
+                        <span className="leading-none text-white">Save</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex flex-col flex-grow flex-shrink relative w-full max-w-600px overflow-hidden rounded-b-2xl">
@@ -90,6 +104,8 @@ type PropType = {
   cssClass?: string;
   cssStyle?: any;
   onClose: () => void;
+  onClick?: () => void;
+  modalType?: "edit-profile";
 };
 
 export default Modal;

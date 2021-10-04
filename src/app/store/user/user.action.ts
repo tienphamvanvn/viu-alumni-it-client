@@ -122,11 +122,6 @@ export const getUser =
   (studentID: string): AppThunk =>
   async dispatch => {
     try {
-      dispatch({
-        type: AlertActionType.ALERT_REQUEST,
-        payload: { isLoading: true },
-      });
-
       const { data } = await getDataAPI(`user/${studentID}`);
 
       dispatch({
@@ -137,11 +132,6 @@ export const getUser =
       });
 
       dispatch(getUserPosts(data.user._id));
-
-      dispatch({
-        type: AlertActionType.ALERT_SUCCESS,
-        payload: { success: null },
-      });
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
@@ -152,6 +142,7 @@ export const getUser =
 
 export const editAccount =
   (
+    token: string,
     payload: {
       fullname: string;
       bio: string;
@@ -164,54 +155,45 @@ export const editAccount =
     },
     images: { coverPhoto: any; profilePicture: any }
   ): AppThunk =>
-  async (dispatch, getState) => {
+  async dispatch => {
     try {
+      let pathCoverPhoto = "",
+        pathProfilePicture = "";
+
+      if (typeof images.coverPhoto === "string") {
+        pathCoverPhoto = images.coverPhoto;
+      } else {
+        pathCoverPhoto = await uploadSingleFile(images.coverPhoto, token);
+      }
+
+      if (typeof images.profilePicture === "string") {
+        pathProfilePicture = images.profilePicture;
+      } else {
+        pathProfilePicture = await uploadSingleFile(
+          images.profilePicture,
+          token
+        );
+      }
+
+      const editedAccount = {
+        ...payload,
+        coverPhoto: pathCoverPhoto,
+        profilePicture: pathProfilePicture,
+      };
+
+      const { data } = await patchDataAPI("user/edit", editedAccount, token);
+
       dispatch({
-        type: AlertActionType.ALERT_REQUEST,
-        payload: { isLoading: true },
+        type: UserActionType.EDIT_ACCOUNT,
+        payload: {
+          account: data.account,
+        },
       });
 
-      const token = getState().user.token;
-
-      if (token) {
-        let pathCoverPhoto = "",
-          pathProfilePicture = "";
-
-        if (typeof images.coverPhoto === "string") {
-          pathCoverPhoto = images.coverPhoto;
-        } else {
-          pathCoverPhoto = await uploadSingleFile(images.coverPhoto, token);
-        }
-
-        if (typeof images.profilePicture === "string") {
-          pathProfilePicture = images.profilePicture;
-        } else {
-          pathProfilePicture = await uploadSingleFile(
-            images.profilePicture,
-            token
-          );
-        }
-
-        const editedAccount = {
-          ...payload,
-          coverPhoto: pathCoverPhoto,
-          profilePicture: pathProfilePicture,
-        };
-
-        const { data } = await patchDataAPI("user/edit", editedAccount, token);
-
-        dispatch({
-          type: UserActionType.EDIT_ACCOUNT,
-          payload: {
-            account: data.account,
-          },
-        });
-
-        dispatch({
-          type: AlertActionType.ALERT_SUCCESS,
-          payload: { success: data.message },
-        });
-      }
+      dispatch({
+        type: AlertActionType.ALERT_SUCCESS,
+        payload: { success: data.message },
+      });
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
@@ -222,36 +204,30 @@ export const editAccount =
   };
 
 export const follow =
-  (id: string, socket: Socket): AppThunk =>
-  async (dispatch, getState) => {
+  (token: string, id: string, socket: Socket): AppThunk =>
+  async dispatch => {
     try {
-      const token = getState().user.token;
+      const { data } = await patchDataAPI(`user/${id}/follow`, null, token);
 
-      if (token) {
-        const { data } = await patchDataAPI(`user/${id}/follow`, null, token);
+      socket.emit("follow", { account: data.account, user: data.user });
 
-        socket.emit("follow", { account: data.account, user: data.user });
+      dispatch({
+        type: UserActionType.FOLLOW,
+        payload: {
+          account: data.account,
+          user: data.user,
+        },
+      });
 
-        dispatch({
-          type: UserActionType.FOLLOW,
-          payload: {
-            account: data.account,
-            user: data.user,
-          },
-        });
+      const notify = {
+        uId: data.account._id,
+        text: "followed you",
+        recipients: [data.user._id],
+        url: `/${data.account.studentID}`,
+        type: "FOLLOW",
+      };
 
-        const notify = {
-          uId: data.account._id,
-          text: "followed you",
-          recipients: [data.user._id],
-          url: `/${data.account.studentID}`,
-          type: "FOLLOW",
-        };
-
-        dispatch(
-          createNotify({ account: data.account, token, notify, socket })
-        );
-      }
+      dispatch(createNotify({ account: data.account, token, notify, socket }));
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
@@ -261,34 +237,30 @@ export const follow =
   };
 
 export const unfollow =
-  (id: string, socket: Socket): AppThunk =>
-  async (dispatch, getState) => {
+  (token: string, id: string, socket: Socket): AppThunk =>
+  async dispatch => {
     try {
-      const token = getState().user.token;
+      const { data } = await patchDataAPI(`user/${id}/unfollow`, null, token);
 
-      if (token) {
-        const { data } = await patchDataAPI(`user/${id}/unfollow`, null, token);
+      socket.emit("unfollow", { account: data.account, user: data.user });
 
-        socket.emit("unfollow", { account: data.account, user: data.user });
+      dispatch({
+        type: UserActionType.UNFOLLOW,
+        payload: {
+          account: data.account,
+          user: data.user,
+        },
+      });
 
-        dispatch({
-          type: UserActionType.UNFOLLOW,
-          payload: {
-            account: data.account,
-            user: data.user,
-          },
-        });
+      const notify = {
+        uId: data.account._id,
+        text: "followed you",
+        recipients: [data.user._id],
+        url: `/${data.account.studentID}`,
+        type: "FOLLOW",
+      };
 
-        const notify = {
-          uId: data.account._id,
-          text: "followed you",
-          recipients: [data.user._id],
-          url: `/${data.account.studentID}`,
-          type: "FOLLOW",
-        };
-
-        dispatch(deleteNotify({ token, notify, socket }));
-      }
+      dispatch(deleteNotify({ token, notify, socket }));
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
@@ -298,22 +270,18 @@ export const unfollow =
   };
 
 export const getFollow =
-  (studentID: string): AppThunk =>
-  async (dispatch, getState) => {
+  (token: string, studentID: string): AppThunk =>
+  async dispatch => {
     try {
-      const token = getState().user.token;
+      const { data } = await getDataAPI(`user/${studentID}/follow`, token);
 
-      if (token) {
-        const { data } = await getDataAPI(`user/${studentID}/follow`, token);
-
-        dispatch({
-          type: UserActionType.GET_FOLLOW,
-          payload: {
-            following: data.following,
-            followers: data.followers,
-          },
-        });
-      }
+      dispatch({
+        type: UserActionType.GET_FOLLOW,
+        payload: {
+          following: data.following,
+          followers: data.followers,
+        },
+      });
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,
@@ -323,20 +291,17 @@ export const getFollow =
   };
 
 export const getSuggestionsUser =
-  (): AppThunk => async (dispatch, getState) => {
+  (token: string): AppThunk =>
+  async dispatch => {
     try {
-      const token = getState().user.token;
+      const { data } = await getDataAPI(`user/suggestions-user`, token);
 
-      if (token) {
-        const { data } = await getDataAPI(`user/suggestions-user`, token);
-
-        dispatch({
-          type: UserActionType.GET_SUGGESTIONS_USER,
-          payload: {
-            usersSuggestions: data.users,
-          },
-        });
-      }
+      dispatch({
+        type: UserActionType.GET_SUGGESTIONS_USER,
+        payload: {
+          usersSuggestions: data.users,
+        },
+      });
     } catch (error) {
       dispatch({
         type: AlertActionType.ALERT_FAILURE,

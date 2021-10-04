@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from "react";
 import "./form.component.css";
 
-const TextBox = ({ children, labelName }: PropTypeTextBox) => {
+const TextBox: React.FC<PropTypeTextBox> = ({ children, labelName }) => {
   return (
     <div className="relative">
       {children}
@@ -14,13 +14,13 @@ const TextBox = ({ children, labelName }: PropTypeTextBox) => {
   );
 };
 
-const TextBoxInput = ({
+const TextBoxInput: React.FC<PropTypeTextBoxInput> = ({
   type,
   name,
   value,
   onChange,
   rest,
-}: PropTypeTextBoxInput) => {
+}) => {
   const [focus, setFocus] = useState(false);
 
   const handleFocus = () => {
@@ -49,7 +49,12 @@ const TextBoxInput = ({
   );
 };
 
-const TextArea = ({ name, value, onChange, rest }: PropTypeTextArea) => {
+const TextArea: React.FC<PropTypeTextArea> = ({
+  name,
+  value,
+  onChange,
+  rest,
+}) => {
   const [focus, setFocus] = useState(false);
 
   const handleFocus = () => {

@@ -5,10 +5,14 @@ import { AppDispatch, GlobalState } from "@/app/store/global.store";
 import { getFollow, getUser } from "@/app/store/user/user.action";
 import Layout from "@/app/components/layout";
 import Head from "@/app/components/head";
-import FollowUserItem from "@/app/components/follow-user-item";
+import UserItem from "@/app/components/user/user-item";
+import Loader from "@/app/components/loader";
 
 const FollowPage: React.FC<PropType> = ({ location, match }) => {
-  const { account, user, following, followers } = useSelector(userSelector);
+  const { token, account, user, following, followers } =
+    useSelector(userSelector);
+
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const pathname = location.pathname;
 
@@ -33,9 +37,11 @@ const FollowPage: React.FC<PropType> = ({ location, match }) => {
     "/following";
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getUser(studentIDParam));
-    dispatch(getFollow(studentIDParam));
-  }, [dispatch, studentIDParam]);
+    token &&
+      dispatch(getFollow(token, studentIDParam)).then(() => setLoading(false));
+  }, [dispatch, studentIDParam, token]);
 
   return (
     <Layout>
@@ -99,23 +105,16 @@ const FollowPage: React.FC<PropType> = ({ location, match }) => {
                 </Link>
               </div>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col relative">
               {active === pathFollowers &&
                 followers?.map(user => (
-                  <FollowUserItem
-                    key={user._id}
-                    account={account}
-                    user={user}
-                  />
+                  <UserItem key={user._id} account={account} user={user} />
                 ))}
               {active === pathFollowing &&
                 following?.map(user => (
-                  <FollowUserItem
-                    key={user._id}
-                    account={account}
-                    user={user}
-                  />
+                  <UserItem key={user._id} account={account} user={user} />
                 ))}
+              {isLoading && <Loader />}
             </div>
           </div>
         )}

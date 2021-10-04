@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { User } from "@/app/shared/types/user.type";
 import { GlobalState } from "@/app/store/global.store";
 import Modal from "@/app/components/modal";
-import FollowUserItem from "@/app/components/follow-user-item";
+import UserItem from "@/app/components/user/user-item";
 
 const UsersLikedPostDialog: React.FC<PropType> = ({ show, onClose, users }) => {
   const { account } = useSelector(userSelector);
@@ -16,7 +16,7 @@ const UsersLikedPostDialog: React.FC<PropType> = ({ show, onClose, users }) => {
       body={
         <>
           {users.map((user, index: number) => (
-            <FollowUserItem key={index} account={account} user={user} />
+            <UserItem key={index} account={account} user={user} />
           ))}
         </>
       }

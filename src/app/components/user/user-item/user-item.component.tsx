@@ -1,40 +1,27 @@
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import { User } from "@/app/shared/types/user.type";
-import { Link } from "react-router-dom";
-import ButtonFollow from "../button/button-follow";
-import FollowsYou from "../follows-you";
+import FollowsYou from "../../common/follows-you";
+import ButtonFollow from "../../button/button-follow";
+import UserProfilePicture from "../user-profile-picture";
 
-const FollowUserItem = ({ account, user, hiddenBtn }: PropType) => {
+const FollowUserItem: React.FC<PropType> = ({ account, user, hiddenBtn }) => {
+  const history = useHistory();
+
+  const onClick = () => history.push(`/${user?.studentID}`);
+
   return (
-    <div className="flex flex-col py-3 px-4 cursor-pointer hover:bg-gray-100">
+    <div
+      className="flex flex-col py-3 px-4 cursor-pointer hover:bg-gray-100"
+      onClick={onClick}
+    >
       <div className="flex">
-        <div
-          className="flex flex-col justify-start flex-grow-0 mr-3"
-          style={{ flexBasis: "48px" }}
-        >
+        <div className="flex flex-col flex-basis-3 justify-start flex-grow-0 mr-3">
           <div className="flex flex-col flex-shrink max-w-full">
-            <Link to={`/${user?.studentID}`} className="block h-12 w-full">
-              <div className="block overflow-hidden relative rounded-full">
-                <div
-                  className="block w-full"
-                  style={{ paddingBottom: "100%" }}
-                ></div>
-                <div className="h-full w-full absolute inset-0">
-                  <div
-                    className="h-full w-full absolute inset-0 bg-cover bg-center bg-no-repeat"
-                    style={{
-                      backgroundImage: `url(${user?.profilePicture})`,
-                    }}
-                  ></div>
-                </div>
-              </div>
-            </Link>
+            <UserProfilePicture user={user} type="a" />
           </div>
         </div>
-        <div
-          className="flex flex-col flex-grow overflow-hidden"
-          style={{ flexBasis: "0px" }}
-        >
+        <div className="flex flex-col flex-grow flex-basis-0 overflow-hidden">
           <div className="flex justify-between items-center">
             <div className="flex flex-col flex-shrink max-w-full">
               <Link

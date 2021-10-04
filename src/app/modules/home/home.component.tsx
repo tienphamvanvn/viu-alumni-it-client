@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, GlobalState } from "@/app/store/global.store";
 import { getPosts } from "@/app/store/post/post.action";
@@ -6,15 +6,19 @@ import Layout from "@/app/components/layout";
 import Head from "@/app/components/head";
 import ListPosts from "@/app/components/post/list-posts";
 import CreatePost from "@/app/components/post/create-post";
+import Loader from "@/app/components/loader";
 
 const HomePage: React.FC = () => {
   const { token, account } = useSelector(userSelector);
-  const { isLoading, posts } = useSelector(postSelector);
+  const { posts } = useSelector(postSelector);
+
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    token && dispatch(getPosts(token));
+    setLoading(true);
+    token && dispatch(getPosts(token)).then(() => setLoading(false));
   }, [dispatch, token]);
 
   return (
@@ -34,7 +38,10 @@ const HomePage: React.FC = () => {
             editorOptions={{ placeholder: "What's happening?" }}
           />
         )}
-        <ListPosts isLoading={isLoading} posts={posts} />
+        <div className="flex flex-col relative">
+          <ListPosts posts={posts} />
+          {isLoading && <Loader />}
+        </div>
       </div>
     </Layout>
   );

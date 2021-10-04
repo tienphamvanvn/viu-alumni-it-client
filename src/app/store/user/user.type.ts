@@ -6,7 +6,7 @@ export interface UserState {
   user: User | null;
   following: User[] | null;
   followers: User[] | null;
-  usersSuggestions: User[] | null;
+  usersSuggestions: User[];
 }
 
 export enum UserActionType {

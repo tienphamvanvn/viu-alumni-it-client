@@ -12,6 +12,14 @@ body {
   font-family: "San Francisco Pro";
 }
 
+.pb-full {
+  padding-bottom: 100%;
+}
+
+svg {
+  z-index: 10;
+}
+
 .wysiwyg-mention {
   text-decoration: none;
   color: #1236ff;

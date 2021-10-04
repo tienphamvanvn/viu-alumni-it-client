@@ -1,9 +1,6 @@
 import { PostAction, PostActionType, PostState } from "./post.type";
 
 const initialState: PostState = {
-  isLoading: false,
-  isLoadingCreate: false,
-  isLoadingEdit: false,
   posts: [],
 };
 
@@ -12,21 +9,6 @@ export const postReducer = (
   action: PostAction
 ): PostState => {
   switch (action.type) {
-    case PostActionType.POST_LOADING:
-      return {
-        ...state,
-        isLoading: action.payload.isLoading,
-      };
-    case PostActionType.POST_CREATE_LOADING:
-      return {
-        ...state,
-        isLoadingCreate: action.payload.isLoadingCreate,
-      };
-    case PostActionType.POST_EDIT_LOADING:
-      return {
-        ...state,
-        isLoadingEdit: action.payload.isLoadingEdit,
-      };
     case PostActionType.CREATE_POST:
       return {
         ...state,

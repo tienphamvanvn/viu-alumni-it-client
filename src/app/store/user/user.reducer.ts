@@ -7,7 +7,7 @@ const initialState: UserState = {
   user: null,
   following: null,
   followers: null,
-  usersSuggestions: null,
+  usersSuggestions: [],
 };
 
 export const userReducer = (

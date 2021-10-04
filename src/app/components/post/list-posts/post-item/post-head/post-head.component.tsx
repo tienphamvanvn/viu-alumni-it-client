@@ -24,9 +24,11 @@ const PostHead: React.FC<PropType> = ({ post, isPageDetails }) => {
   const handleDeletePost = (id: string) =>
     token && dispatch(deletePost(token, id, socket));
 
-  const handleFollow = (id: string) => dispatch(follow(id, socket));
+  const handleFollow = (id: string) =>
+    token && dispatch(follow(token, id, socket));
 
-  const handleUnfollow = (id: string) => dispatch(unfollow(id, socket));
+  const handleUnfollow = (id: string) =>
+    token && dispatch(unfollow(token, id, socket));
 
   return (
     <div className="flex flex-col">

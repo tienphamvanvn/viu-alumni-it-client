@@ -8,7 +8,7 @@ import { AppDispatch } from "@/app/store/global.store";
 import { ReactComponent as IconEllipsis } from "@/app/assets/svgs/icon-ellipsis.svg";
 import { signOut } from "@/app/store/user/user.action";
 
-const AccountMenu = ({ account }: PropType) => {
+const AccountMenu: React.FC<PropType> = ({ account }) => {
   const history = useHistory();
 
   const dispatch = useDispatch<AppDispatch>();

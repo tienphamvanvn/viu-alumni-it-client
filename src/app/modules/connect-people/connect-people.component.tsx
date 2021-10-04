@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { GlobalState } from "@/app/store/global.store";
 import Layout from "@/app/components/layout";
 import Head from "@/app/components/head";
-import FollowUserItem from "@/app/components/follow-user-item";
+import UserItem from "@/app/components/user/user-item";
 
 const ConnectPeoplePage: React.FC = () => {
   const { account, usersSuggestions } = useSelector(userSelector);
@@ -16,9 +16,12 @@ const ConnectPeoplePage: React.FC = () => {
           <div className="flex flex-col justify-between py-3 px-4 border-t border-gray-100">
             <h2 className="text-xl font-bold">Suggested for you</h2>
           </div>
-          {usersSuggestions?.map(user => (
-            <FollowUserItem key={user._id} account={account} user={user} />
-          ))}
+          <div className="flex flex-col relative">
+            {usersSuggestions.length > 0 &&
+              usersSuggestions.map(user => (
+                <UserItem key={user._id} account={account} user={user} />
+              ))}
+          </div>
         </div>
       </div>
     </Layout>

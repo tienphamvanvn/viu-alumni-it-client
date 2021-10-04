@@ -18,24 +18,31 @@ import Layout from "@/app/components/layout";
 import EditProfile from "../dialogs/edit-profile";
 import ButtonFollow from "@/app/components/button/button-follow";
 import Head from "@/app/components/head";
-import FollowsYou from "@/app/components/follows-you";
+import FollowsYou from "@/app/components/common/follows-you";
+import UserProfilePicture from "@/app/components/user/user-profile-picture";
+import ButtonIcon from "@/app/components/button/button-icon";
+import Loader from "@/app/components/loader";
 
 const ProfilePage: React.FC<PropType> = ({ match }) => {
   const { account, user } = useSelector(userSelector);
   const { posts } = useSelector(postSelector);
 
-  const [showDialog, setShowDialog] = useState(false);
+  const [showDialog, setShowDialog] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const studentIDParam = match.params.studentID;
 
-  const handleOpen = () => setShowDialog(true);
+  const onOpen = () => setShowDialog(true);
 
-  const handleClose = () => setShowDialog(false);
+  const onClose = () => setShowDialog(false);
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(getUser(studentIDParam));
+    setLoading(true);
+    dispatch(getUser(studentIDParam)).then(() => {
+      setLoading(false);
+    });
   }, [dispatch, studentIDParam]);
 
   return (
@@ -48,7 +55,7 @@ const ProfilePage: React.FC<PropType> = ({ match }) => {
           headline="Profile"
           posts={posts}
         />
-        <div className="flex flex-col">
+        <div className="flex flex-col relative">
           <div className="flex flex-col flex-grow">
             <div className="flex flex-col w-full max-w-600px mx-auto">
               <div className="flex flex-col">
@@ -75,41 +82,33 @@ const ProfilePage: React.FC<PropType> = ({ match }) => {
                 </div>
                 <div className="flex flex-col pt-3 px-4 mb-4">
                   <div className="flex justify-between items-end flex-wrap">
-                    <div
-                      className="flex flex-col relative w-1/4 min-w-12 bg-white border-4 border-white overflow-hidden rounded-full cursor-pointer"
-                      style={{ marginTop: "-18%" }}
-                    >
-                      <div className="block overflow-hidden relative rounded-full">
-                        <div
-                          className="block w-full"
-                          style={{ paddingBottom: "100%" }}
-                        ></div>
-                        <div className="h-full w-full absolute inset-0">
-                          <div
-                            className="h-full w-full absolute inset-0 bg-cover bg-center bg-no-repeat"
-                            style={{
-                              backgroundImage: `url(${
-                                user
-                                  ? account &&
-                                    account.studentID.toString() ===
-                                      studentIDParam
-                                    ? account.profilePicture
-                                    : user.profilePicture
-                                  : ImageProfilePicture
-                              })`,
-                            }}
-                          ></div>
-                        </div>
-                      </div>
+                    <div className="flex flex-col relative w-1/4 min-w-12 bg-white border-4 border-white overflow-hidden rounded-full cursor-pointer -mt-20">
+                      <UserProfilePicture
+                        type="div"
+                        user={
+                          account?.studentID.toString() === studentIDParam
+                            ? account
+                            : user
+                        }
+                        preProfilePicture={
+                          user
+                            ? account &&
+                              account.studentID.toString() === studentIDParam
+                              ? account.profilePicture
+                              : user.profilePicture
+                            : ImageProfilePicture
+                        }
+                      />
                     </div>
-                    <div className="flex justify-start items-end flex-wrap max-w-full">
+                    <div className="flex justify-start items-center flex-wrap max-w-full">
                       {user && account && account.following.includes(user._id) && (
-                        <div className="flex flex-col min-h-9 min-w-9 mb-3 mr-2 rounded-full cursor-pointer border border-blue-200 hover:bg-blue-100">
-                          <div className="flex justify-center items-center flex-grow">
-                            <span className="font-medium leading-none text-blue-600">
-                              <IconInbox className="h-5 w-5 fill-current" />
-                            </span>
-                          </div>
+                        <div className="mr-3 mb-3">
+                          <ButtonIcon
+                            buttonType="inbox"
+                            icon={
+                              <IconInbox className="h-5 w-5 fill-current text-blue-600" />
+                            }
+                          />
                         </div>
                       )}
                       {account &&
@@ -117,7 +116,7 @@ const ProfilePage: React.FC<PropType> = ({ match }) => {
                           <>
                             <div
                               className="flex flex-col min-h-9 min-w-9 mb-3 px-4 rounded-full cursor-pointer border border-blue-200 hover:bg-blue-100"
-                              onClick={handleOpen}
+                              onClick={onOpen}
                             >
                               <div className="flex justify-center items-center flex-grow">
                                 <span className="font-medium leading-none text-blue-600">
@@ -127,7 +126,7 @@ const ProfilePage: React.FC<PropType> = ({ match }) => {
                             </div>
                             <EditProfile
                               show={showDialog}
-                              handleClose={handleClose}
+                              onClose={onClose}
                               account={account}
                             />
                           </>
@@ -487,6 +486,7 @@ const ProfilePage: React.FC<PropType> = ({ match }) => {
               </div>
             </div>
           </div>
+          {isLoading && <Loader />}
         </div>
       </div>
     </Layout>
